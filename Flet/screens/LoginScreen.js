@@ -11,7 +11,7 @@ export default class LoginScreen extends React.Component {
       password:''
     }
   }
-
+  
   componentDidMount(){  // Este metodo verifica luego de cargar la pagina 
     this.checkHeaders();
   }
