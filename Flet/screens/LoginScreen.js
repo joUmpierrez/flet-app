@@ -12,6 +12,22 @@ export default class LoginScreen extends React.Component {
     }
   }
 
+  componentDidMount(){  // Este metodo verifica luego de cargar la pagina 
+    this.checkHeaders();
+  }
+
+  async checkHeaders(){ // Este metodo nos valida el login sin tener que hacerlo, para testear viene barbaro
+    let uid = await AsyncStorage.getItem('uid');
+    let expiry = await AsyncStorage.getItem('expiry');
+    let client = await AsyncStorage.getItem('client');
+    let tokenType = await AsyncStorage.getItem('token-type');
+    let accessToken = await AsyncStorage.getItem('access-token');
+
+    if(uid != null && expiry != null && client != null && tokenType!= null && accessToken){
+      this.props.navigation.navigate('OrderStack');
+    }
+  }
+
   async test1(){
     let a = await AsyncStorage.getItem('expiry');
     if(a != null){
@@ -20,7 +36,16 @@ export default class LoginScreen extends React.Component {
   }
     
     handlePress(){
-      login(this.state.email,this.state.password);
+      login(this.state.email,this.state.password).then((res)=>{
+      console.log(res);
+      switch(res['succes']){
+        case false: 
+          console.log('implementar mensaje');
+          break;
+        default:
+          this.props.navigation.navigate('OrderStack');
+      }
+      });
       this.test1();
 
     }
