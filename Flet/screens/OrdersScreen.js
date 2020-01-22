@@ -17,14 +17,15 @@ import { MonoText } from '../components/StyledText';
 const screenWidth = Math.round(Dimensions.get('window').width);
 const title = "Pedidos";
 
-export default function OrdersScreen() {
-  return (
-    <View style={styles.container}>
+export default class OrdersScreen extends React.Component {
+
+  render(){
+    return(<View style={styles.container}>
       <View style={styles.header}>
 {/* //_______________________________________________________________________________ */}
         <View id="viewTitle" style={[styles.headerRow]}>
           <View style={styles.rowitem}>
-            <Ionicons style={styles.drawerIcon} color='purple' name='ios-menu' size={32}/>
+            <Ionicons onPress={() =>this.props.navigation.toggleDrawer()} style={styles.drawerIcon} color='purple' name='ios-menu' size={32}/>
           </View>
           <View style={styles.rowitem}>
             <Text style={styles.title} >{title}</Text>
@@ -54,8 +55,8 @@ export default function OrdersScreen() {
       <View style={styles.content}>
         <Text>Aca va todo de la pantalla Orders</Text>
       </View>
-    </View>
-  );
+    </View>)
+  }
 }
 
 OrdersScreen.navigationOptions = {
