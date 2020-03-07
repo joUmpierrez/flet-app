@@ -19,7 +19,7 @@ const stackNavigator = createStackNavigator({
 });
 
 stackNavigator.navigationOptions = ({navigation}) => {
-    let drawerLockMode = 'locked-closed';
+    let drawerLockMode = 'unlocked'; // locked-closed
     return{
         drawerLockMode,
         headervisible: false,

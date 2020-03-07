@@ -13,7 +13,7 @@ export default class LoginScreen extends React.Component {
   }
   
   componentDidMount(){  // Este metodo verifica luego de cargar la pagina 
-    this.checkHeaders();
+    this.props.navigation.navigate('Main');
   }
 
   async checkHeaders(){ // Este metodo nos valida el login sin tener que hacerlo, para testear viene barbaro
