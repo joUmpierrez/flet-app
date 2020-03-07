@@ -11,13 +11,19 @@ import {
   TextInput,
   View,
 } from 'react-native';
-
+import {getOrders} from '../services/Orders';
 import { MonoText } from '../components/StyledText';
 
 const screenWidth = Math.round(Dimensions.get('window').width);
 const title = "Pedidos";
 
 export default class OrdersScreen extends React.Component {
+
+  componentWillMount(){
+    getOrders().then((res)=>{
+      console.log(res[0]);
+    });
+  }
 
   render(){
     return(<View style={styles.container}>

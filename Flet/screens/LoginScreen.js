@@ -24,7 +24,7 @@ export default class LoginScreen extends React.Component {
     let accessToken = await AsyncStorage.getItem('access-token');
 
     if(uid != null && expiry != null && client != null && tokenType!= null && accessToken){
-      this.props.navigation.navigate('OrderStack');
+      this.props.navigation.navigate('Main');
     }
   }
 

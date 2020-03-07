@@ -14,3 +14,20 @@ export const extractHeaders = (res) =>{
     AsyncStorage.setItem('client',client);
     AsyncStorage.setItem('expiry',expiry);
 }
+
+export const injectHeaders = async () =>{
+    let uid = await AsyncStorage.getItem('uid');
+    let accessToken = await AsyncStorage.getItem('access-token');
+    let tokenType = await AsyncStorage.getItem('token-type');
+    let client = await AsyncStorage.getItem('client');
+    let expiry = await AsyncStorage.getItem('expiry');
+    console.log(expiry);
+    return {
+        'Content-Type': 'application/json; charset=utf-8',
+        'uid': uid,
+        'access-token': accessToken,
+        'token-type': tokenType,
+        'client': client,
+        'expiry': expiry,
+    }
+}
