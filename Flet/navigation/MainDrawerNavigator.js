@@ -13,14 +13,14 @@ const config = Platform.select({
 });
 
 const tabNavigator = createDrawerNavigator({
-  Orders:{
+  Orders: {
     screen: OrdersScreen
   },
   AddOrder: stackNavigator,
   Distributors: {
     screen: DistributorsScreen
   }
-},{
+}, {
   contentComponent: drawerContentComponents,
 });
 

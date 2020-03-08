@@ -13,14 +13,14 @@ const stackNavigator = createStackNavigator({
     OriginDestiny: {
         screen: OriginDestinyScreen
     }
-},{
-    headerMode:'none',
+}, {
+    headerMode: 'none',
     // cardStyle:{backgroundColor:'MICOLORDEFONDO'}  ACA VA EL COLOR DE FONDO QUE LE QUIERAS PONER A TODO EL STACK, INDIVIDUALMENTE DE CADA PANTALLA
 });
 
-stackNavigator.navigationOptions = ({navigation}) => {
+stackNavigator.navigationOptions = ({ navigation }) => {
     let drawerLockMode = 'unlocked'; // locked-closed
-    return{
+    return {
         drawerLockMode,
         headervisible: false,
     }

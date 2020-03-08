@@ -5,7 +5,6 @@ export const getOrders = () => {
     const URL = ordersURL;
     return fetch(URL)
     .then((res) => {
-        console.log(res);
         return res.json();
     });
 }
