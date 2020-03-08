@@ -24,6 +24,7 @@ export default class OrdersScreen extends React.Component {
     super(props);
     this.state = {
       orders: [],
+      filteredOrders: [],
     }
   }
 
@@ -31,9 +32,31 @@ export default class OrdersScreen extends React.Component {
     getOrders().then((res) => {
       let DATA = res
       this.setState({
-        orders: DATA
+        orders: DATA,
+        filteredOrders: DATA,
       });
     });
+  }
+
+  searchFilter(text) {
+    if(text != null || text != ''){
+      let auxArray = [];
+      this.setState({
+        filteredOrders: []
+      });
+      this.state.orders.forEach(element => {
+        element.priority.includes(text) || element.number.toString().includes(text)? auxArray.push(element) : null;
+      });
+      this.setState({
+        filteredOrders: auxArray,
+      });
+    }
+    else{
+      let auxArray = this.state.orders;
+      this.setState({
+        filteredOrders: auxArray,
+      })
+    }
   }
 
   render() {
@@ -59,7 +82,7 @@ export default class OrdersScreen extends React.Component {
         <View id="viewSearch" style={styles.headerNoRow}>
           <View style={styles.searchBar}>
             <Ionicons name='ios-search' color='purple' size={24} style={styles.searchIcon} />
-            <TextInput placeholder="Client/Order/Subject.." style={styles.textInput}></TextInput>
+            <TextInput placeholder="Client/Order/Subject.." style={styles.textInput} onChangeText={text => this.searchFilter(text)} ></TextInput>
           </View>
         </View>
 
@@ -86,7 +109,7 @@ export default class OrdersScreen extends React.Component {
                 <View style={{ width: 10 }} />
               )
             }}
-            data={this.state.orders}
+            data={this.state.filteredOrders}
             numColumns={1}
             renderItem={({ item }) => {
               return (
@@ -122,11 +145,15 @@ export default class OrdersScreen extends React.Component {
                     </View>
 
                     <View style={styles.statePicked}>
-                      <FontAwesome name="circle" color="#c4c4c4" size={24} style={{textAlign: 'center'}}/>
+                      {
+                        item.status == 'levantado' || item.status == 'entregado' ? <AntDesign name="checkcircle" color="orange" size={24} style={{textAlign: 'center'}} /> :<FontAwesome name="circle" color="#c4c4c4" size={24} style={{textAlign: 'center'}}/>
+                      }
                     </View>
 
                     <View style={styles.stateDelivered}>
-                      <FontAwesome name="circle" color="#c4c4c4" size={24} style={{textAlign: 'right'}}/>
+                      {
+                        item.status == 'entregado' ? <AntDesign name="checkcircle" color="orange" size={24} style={{textAlign: 'right'}} /> :<FontAwesome name="circle" color="#c4c4c4" size={24} style={{textAlign: 'right'}}/>
+                      }
                     </View>
                   </View>
                 </View>
@@ -187,10 +214,10 @@ const styles = StyleSheet.create({
   },
   rowitem: {
     flex: 1,
-
   },
   title: {
     alignSelf: 'center',
+    fontSize: 24
   },
   drawerIcon: {
     paddingLeft: 18
@@ -247,7 +274,8 @@ const styles = StyleSheet.create({
   },
   cardTitleShare:{
     flex: 1,
-    paddingTop: 3,
+    paddingTop: 5,
+    paddingRight: 7,
   },
   cardAddress: {
     flex: 1,
