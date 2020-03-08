@@ -15,7 +15,7 @@ import {
 
 
 const screenWidth = Math.round(Dimensions.get('window').width);
-const title = "Order Detail";
+const title = "Map";
 
 export default class OrdersScreen extends React.Component {
 
@@ -41,8 +41,7 @@ export default class OrdersScreen extends React.Component {
             {/* //_______________________________________________________________________________  DEBAJO DEL HEADER*/}
             <View style={styles.clientatributes} >
 
-                <TextInput style={styles.bottominput} placeholder="Subject"></TextInput>
-                <TextInput style={styles.bottominput} placeholder="Description"></TextInput>
+                
             </View>
 
 

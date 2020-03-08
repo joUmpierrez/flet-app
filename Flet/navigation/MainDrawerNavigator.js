@@ -6,8 +6,10 @@ import DistributorsScreen from '../screens/DistributorsScreen';
 import OrdersScreen from '../screens/OrdersScreen';
 import stackNavigator from '../navigation/AddStackNavigator';
 import drawerContentComponents from '../components/drawerContentComponent';
+import OrderDetailScreen from '../screens/OrderDetailScreen';
+import MapScreen from '../screens/MapScreen';
 
-const config = Platform.select({
+const config = Platform.select({  // aca va el if para distribuidor o repartidor
   web: { headerMode: 'screen' },
   default: {},
 });
@@ -19,8 +21,16 @@ const tabNavigator = createDrawerNavigator({
   AddOrder: stackNavigator,
   Distributors: {
     screen: DistributorsScreen
-  }
-},{
+  },
+  OrderDetail :{
+    screen:OrderDetailScreen
+  },
+  Map : {
+    screen: MapScreen
+  },
+
+},
+{
   contentComponent: drawerContentComponents,
 });
 

@@ -3,6 +3,7 @@ import AddClientScreen from '../screens/AddClientScreen';
 import OrderDetailScreen from '../screens/OrderDetailScreen';
 import OriginDestinyScreen from '../screens/OriginDestinyScreen';
 
+
 const stackNavigator = createStackNavigator({
     AddClient: {
         screen: AddClientScreen
@@ -12,7 +13,8 @@ const stackNavigator = createStackNavigator({
     },
     OriginDestiny: {
         screen: OriginDestinyScreen
-    }
+    },
+  
 },{
     headerMode:'none',
     // cardStyle:{backgroundColor:'MICOLORDEFONDO'}  ACA VA EL COLOR DE FONDO QUE LE QUIERAS PONER A TODO EL STACK, INDIVIDUALMENTE DE CADA PANTALLA

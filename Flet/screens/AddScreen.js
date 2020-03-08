@@ -4,7 +4,7 @@ import { ScrollView, StyleSheet, Text, Button } from 'react-native';
 export default function AddScreen() {
   return (
     <ScrollView style={styles.container}>
-      <Text>Aca va todo lo de la pantalla Add</Text>
+      <Text>AJAAJAJ amigooo</Text>
     </ScrollView>
   );
 }
