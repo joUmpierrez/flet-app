@@ -3,9 +3,6 @@ import React from 'react';
 import { Dimensions } from "react-native";
 import { Ionicons, AntDesign, MaterialIcons, EvilIcons } from '@expo/vector-icons';
 import {
-  Image,
-  Platform,
-  ScrollView,
   StyleSheet,
   Text,
   TextInput,
@@ -14,7 +11,7 @@ import {
 } from 'react-native';
 
 
-const screenWidth = Math.round(Dimensions.get('window').width);
+
 const title = "Map";
 
 export default class OrdersScreen extends React.Component {

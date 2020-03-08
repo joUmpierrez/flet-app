@@ -3,9 +3,6 @@ import React from 'react';
 import { Dimensions } from "react-native";
 import { Ionicons, AntDesign, MaterialIcons, EvilIcons } from '@expo/vector-icons';
 import {
-    Image,
-    Platform,
-    ScrollView,
     StyleSheet,
     Text,
     TextInput,
@@ -14,7 +11,7 @@ import {
 } from 'react-native';
 
 
-const screenWidth = Math.round(Dimensions.get('window').width);
+
 const title = "Order Detail";
 
 export default class OrdersScreen extends React.Component {
@@ -41,8 +38,9 @@ export default class OrdersScreen extends React.Component {
             {/* //_______________________________________________________________________________  DEBAJO DEL HEADER*/}
             <View style={styles.clientatributes} >
 
-                <TextInput style={styles.bottominput} placeholder="Subject"></TextInput>
+                <TextInput  style={styles.bottominput} placeholder="Subject"></TextInput>
                 <TextInput style={styles.bottominput} placeholder="Description"></TextInput>
+                <TextInput style={styles.bottominput} placeholder="Monto"></TextInput>
             </View>
 
 
@@ -88,7 +86,7 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
     },
     clientatributes: {
-        flex: 6,
+        flex: 4,
         backgroundColor: "#e3e3e3"
     },
     bottominput: {
@@ -96,7 +94,7 @@ const styles = StyleSheet.create({
         borderBottomWidth: 1,
         alignSelf: 'center',
         width: '95%',
-        height: '40%',
+        height: '28%',
         textAlign: 'left',
         fontSize:18,
         paddingBottom:90,
