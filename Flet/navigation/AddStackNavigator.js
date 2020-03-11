@@ -2,7 +2,7 @@ import { createStackNavigator } from 'react-navigation';
 import AddClientScreen from '../screens/AddClientScreen';
 import OrderDetailScreen from '../screens/OrderDetailScreen';
 import OriginDestinyScreen from '../screens/OriginDestinyScreen';
-
+import MapScreen from '../screens/MapScreen';
 
 const stackNavigator = createStackNavigator({
     AddClient: {
@@ -12,6 +12,9 @@ const stackNavigator = createStackNavigator({
         screen: OrderDetailScreen
     },
     OriginDestiny: {
+        screen: MapScreen
+    },
+    Map: {
         screen: OriginDestinyScreen
     },
   
