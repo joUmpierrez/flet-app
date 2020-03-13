@@ -8,7 +8,7 @@ import stackNavigator from '../navigation/AddStackNavigator';
 import drawerContentComponents from '../components/drawerContentComponent';
 import OrderDetailScreen from '../screens/OrderDetailScreen';
 import MapScreen from '../screens/MapScreen';
-
+import TimePickScreen from '../screens/TimePickScreen';
 const config = Platform.select({  // aca va el if para distribuidor o repartidor
   web: { headerMode: 'screen' },
   default: {},
@@ -28,6 +28,9 @@ const tabNavigator = createDrawerNavigator({
   Map : {
     screen: MapScreen
   },
+  TimePick: {
+    screen: TimePickScreen
+  }
 
 },
 {

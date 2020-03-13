@@ -117,7 +117,7 @@ export default class OrdersScreen extends React.Component {
       </View>
 
       {/* //_______________________________________________________________________________  DEBAJO DEL HEADER*/}
-      <View style={styles.clientatributes} >
+      <View style={styles.body} >
 
         <View style={styles.clientatributesdivision}>
           <View style={styles.logoHeader}>
@@ -139,7 +139,7 @@ export default class OrdersScreen extends React.Component {
           </View>
         </View>
 
-        <View style={styles.body}>
+        <View style={styles.clientatributesdivision2}>
           <View style={styles.logoHeader}>
             <MaterialCommunityIcons name='map-marker-radius' color='purple' size={46} />
             <Text style={styles.blackFont}>Destination</Text>

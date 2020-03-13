@@ -29,6 +29,9 @@ export default class drawerContentComponent extends Component {
                 <View style={[styles.screenStyle, (this.props.activeItemKey=='Distributors') ? styles.activeBackgroundColor : null]}>
                     <Text style={[styles.screenTextStyle, (this.props.activeItemKey=='Distributors') ? styles.selectedTextStyle : null]} onPress={this.navigateToScreen('Distributors')}>Distributors</Text>
                 </View>
+                <View style={[styles.screenStyle, (this.props.activeItemKey=='TimePick') ? styles.activeBackgroundColor : null]}>
+                    <Text style={[styles.screenTextStyle, (this.props.activeItemKey=='TimePick') ? styles.selectedTextStyle : null]} onPress={this.navigateToScreen('TimePick')}>Date time</Text>
+                </View>
                 {/* <View style={[styles.screenStyle, (this.props.activeItemKey=='OrderDetail') ? styles.activeBackgroundColor : null]}>
                     <Text style={[styles.screenTextStyle, (this.props.activeItemKey=='OrderDetail') ? styles.selectedTextStyle : null]} onPress={this.navigateToScreen('OrderDetail')}>Order Detail</Text>
                 </View>
