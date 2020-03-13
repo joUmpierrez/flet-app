@@ -3,6 +3,7 @@ import AddClientScreen from '../screens/AddClientScreen';
 import OrderDetailScreen from '../screens/OrderDetailScreen';
 import OriginDestinyScreen from '../screens/OriginDestinyScreen';
 import MapScreen from '../screens/MapScreen';
+import TimePickScreen from '../screens/TimePickScreen';
 
 const stackNavigator = createStackNavigator({
     AddClient: {
@@ -17,6 +18,9 @@ const stackNavigator = createStackNavigator({
     Map: {
         screen: OriginDestinyScreen
     },
+    TimePick: {
+        screen: TimePickScreen
+    }
   
 },{
     headerMode:'none',

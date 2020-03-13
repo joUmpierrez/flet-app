@@ -25,9 +25,9 @@ export default class OrginDestinyScreen extends React.Component {
     }
 
     sendLocation(){
-        this.props.navigation.goBack();
-
-        this.props.navigation.navigate('OriginDestiny',{
+        // this.props.navigation.goBack();
+        this.props.navigation.navigate('TimePick',{
+            sarasa: 'asdasdas',
             lat: this.state.lat,
             lon: this.state.lon,
         });

@@ -152,14 +152,14 @@ const styles = StyleSheet.create({
   bottominput: {
     borderBottomColor: 'gray',
     borderBottomWidth: 1,
-    alignSelf: 'center',
-    width: '95%',
-    height: '11.5%',
-    textAlign: 'left',
-  },
-  purplebutton: {
-    alignSelf: 'center',
-    backgroundColor: '#3A0D5E',
+    alignSelf:'center',
+    width:'95%',
+   height:'15%',
+   textAlign:'left',
+  },  
+purplebutton:{
+    alignSelf:'center', 
+    backgroundColor:'#3A0D5E',
     paddingHorizontal: '30%',
     paddingVertical: '5%',
     padding: '4%',

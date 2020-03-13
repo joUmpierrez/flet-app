@@ -4,20 +4,61 @@ import {DatePickerIOS, View, StyleSheet, TimePickerAndroid, DatePickerAndroid, P
 export default class TimePickScreen extends Component {
   constructor(props) {
     super(props);
-    this.state = {chosenDate: new Date()};
-
-    this.setDate = this.setDate.bind(this);
+    this.state= {
+      hour: null,
+      minute: null,
+      year: null,
+      month: null,
+      day: null,
+      lat: null,
+      lon: null,
+    }
+    // this.state = {chosenDate: new Date()};
+    // this.setDate = this.setDate.bind(this);
   }
+
+  componentDidMount(){
+    this.setState({
+      lat: this.props.navigation.getParam('lat'),
+      lon: this.props.navigation.getParam('lon'),
+    });
+  }
+
+  sendDateLoc(){
+    this.props.navigation.navigate('OriginDestiny',{
+      lat: this.state.lat,
+      lon: this.state.lon,
+      hour: this.state.hour,
+      minute: this.state.minute,
+      year: this.state.year,
+      month: this.state.month,
+      day: this.state.day,
+    });
+  }
+
+
 
   async sarasa(){
     try {
         const {action, hour, minute} = await TimePickerAndroid.open({
-          hour: 14,
+          hour: 12,
           minute: 0,
           is24Hour: false, // Will display '2 PM'
         });
         if (action !== TimePickerAndroid.dismissedAction) {
-          // Selected hour (0-23), minute (0-59)
+          if(minute.toString().length == 1){
+            let minuto = '0'+minute.toString();
+            this.setState({
+              hour: hour,
+              minute: minuto,
+            });
+          }
+          else{
+            this.setState({
+              hour: hour,
+              minute: minute,
+            });
+          }
         }
       } catch ({code, message}) {
         console.warn('Cannot open time picker', message);
@@ -29,18 +70,18 @@ export default class TimePickScreen extends Component {
         const {action, year, month, day} = await DatePickerAndroid.open({
           // Use `new Date()` for current date.
           // May 25 2020. Month 0 is January.
-          date: new Date(2020, 4, 25),
+          date: new Date(),
         });
         if (action !== DatePickerAndroid.dismissedAction) {
-          // Selected year, month (0-11), day
+          this.setState({
+            year: year,
+            month: month + 1,
+            day: day,
+          });
         }
       } catch ({code, message}) {
         console.warn('Cannot open date picker', message);
       }
-  }
-
-  setDate(newDate) {
-    this.setState({chosenDate: newDate});
   }
 
   render() {
@@ -58,21 +99,27 @@ export default class TimePickScreen extends Component {
               :
               <View style={{flex: 1}}>
                 <View style={{flex: 1}}>
-                <TouchableOpacity style={styles.button} onPress={this.sarasa.bind(this)} >
-                    <Text>asdasdas</Text>
-                </TouchableOpacity>
+                  <TouchableOpacity style={styles.button} onPress={this.sarasa.bind(this)} >
+                      <Text style={styles.blackfont}>SELECT TIME</Text>
+                  </TouchableOpacity>
+                  <View style={styles.dateContainer}>
+                      {this.state.hour == null ? null : <Text style={styles.dateFont}>{this.state.hour} : {this.state.minute}</Text>}
+                  </View>
                 </View>
                 <View style={{flex: 1}}>
-                <TouchableOpacity style={styles.button} onPress={this.sarasa2.bind(this)}>
-                    <Text>sdasdasd 2</Text>
-                </TouchableOpacity>
+                  <TouchableOpacity style={styles.button} onPress={this.sarasa2.bind(this)}>
+                      <Text style={styles.blackfont}>SELECT DATE</Text>
+                  </TouchableOpacity>
+                  <View style={styles.dateContainer}>
+                      {this.state.day == null ? null : <Text style={styles.dateFont}>{this.state.day} / {this.state.month} / {this.state.year}</Text>}
+                  </View>
                 </View>
             </View>
             }
             
         </View>
         <View style={styles.footer}>
-        <TouchableOpacity style={styles.purplebutton} >
+        <TouchableOpacity style={styles.purplebutton} onPress={this.sendDateLoc.bind(this)} >
           <Text style={styles.whitefont}>NEXT</Text>
         </TouchableOpacity>
         </View>        
@@ -98,7 +145,16 @@ const styles = StyleSheet.create({
   },
   button:{
       alignSelf: 'center',
-      backgroundColor: 'blue',
+      backgroundColor: 'orange',
+      borderRadius: 12,
+      width: '80%',
+      paddingVertical: '5%',
+      padding: '4%',
+  },
+  dateContainer: {
+    paddingTop: '25%',
+    width: '100%',
+
   },
   purplebutton: {
     alignSelf: 'center',
@@ -115,4 +171,16 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 14,
   },
+  blackfont: {
+    color: 'black',
+    alignSelf: 'center',
+    fontWeight: 'bold',
+    fontSize: 14,
+  },
+  dateFont: {
+    color: 'black',
+    alignSelf: 'center',
+    fontSize: 24,
+    fontWeight: 'bold',
+  }
 });

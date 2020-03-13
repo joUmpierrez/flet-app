@@ -32,6 +32,16 @@ export default class OrdersScreen extends React.Component {
       lon1: '',
       lat2: '',
       lon2: '',
+      hour1: '',
+      minute1: '',
+      year1: '',
+      month1: '',
+      day1: '',
+      hour2: '',
+      minute2: '',
+      year2: '',
+      month2: '',
+      day2: '',
       loc1: false,
       loc2: false,
     }
@@ -65,7 +75,16 @@ export default class OrdersScreen extends React.Component {
     console.log(this.state.lon1);
     console.log(this.state.lat2);
     console.log(this.state.lon2);
-
+    console.log(this.state.hour1);
+    console.log(this.state.minute1);
+    console.log(this.state.year1);
+    console.log(this.state.month1);
+    console.log(this.state.day1);
+    console.log(this.state.hour2);
+    console.log(this.state.minute2);
+    console.log(this.state.year2);
+    console.log(this.state.month2);
+    console.log(this.state.day2);
   }
 
   componentDidMount() {
@@ -87,6 +106,11 @@ export default class OrdersScreen extends React.Component {
       this.setState({
         lat1: this.props.navigation.getParam('lat'),
         lon1: this.props.navigation.getParam('lon'),
+        hour1: this.props.navigation.getParam('hour'),
+        minute1: this.props.navigation.getParam('minute'),
+        year1: this.props.navigation.getParam('year'),
+        month1: this.props.navigation.getParam('month'),
+        day1: this.props.navigation.getParam('day'),
         loc1: false,
       });
     }
@@ -94,6 +118,11 @@ export default class OrdersScreen extends React.Component {
       this.setState({
         lat2: this.props.navigation.getParam('lat'),
         lon2: this.props.navigation.getParam('lon'),
+        hour2: this.props.navigation.getParam('hour'),
+        minute2: this.props.navigation.getParam('minute'),
+        year2: this.props.navigation.getParam('year'),
+        month2: this.props.navigation.getParam('month'),
+        day2: this.props.navigation.getParam('day'),
         loc2: false,
       });
     }

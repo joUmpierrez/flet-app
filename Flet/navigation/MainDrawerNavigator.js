@@ -28,9 +28,6 @@ const tabNavigator = createDrawerNavigator({
   Map : {
     screen: MapScreen
   },
-  TimePick: {
-    screen: TimePickScreen
-  }
 
 },
 {
