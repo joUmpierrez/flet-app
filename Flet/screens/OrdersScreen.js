@@ -79,10 +79,10 @@ export default class OrdersScreen extends React.Component {
         <Swipeout right={swipeoutBtns} style={styles.swipeout}>
           <View style={styles.cardTitle}>
             <View style={styles.cardTitleText}>
-              <Text style={{ fontSize: 24, color: 'purple' }}>{item.item.number} Nombre cliente</Text>
+              <Text style={{ fontSize: 20, color: 'purple' }}>{item.item.number} Nombre cliente</Text>
             </View>
             <View style={styles.cardTitleShare}>
-              <Ionicons name="md-share" color="purple" size={24} style={{ textAlign: 'right' }} />
+              <Ionicons name="md-share" color="purple" size={20} style={{ textAlign: 'right' }} />
             </View>
           </View>
           <View style={styles.cardAddress}>
@@ -235,7 +235,7 @@ const styles = StyleSheet.create({
   },
   title: {
     alignSelf: 'center',
-    fontSize: 24
+    fontSize: 20
   },
   drawerIcon: {
     paddingLeft: 18
@@ -303,7 +303,7 @@ const styles = StyleSheet.create({
   cardAddressText: {
     paddingLeft: 3,
     textAlign: 'left',
-    fontSize: 12,
+    fontSize: 16,
   },
   cardStateText: {
     flex: 1,

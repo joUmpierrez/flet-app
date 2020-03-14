@@ -114,7 +114,7 @@ const styles = StyleSheet.create({
   },
   title: {
     alignSelf: 'center',
-    fontSize: 24,
+    fontSize: 16,
   },
   drawerIcon: {
     paddingLeft: 18
@@ -170,6 +170,6 @@ purplebutton:{
     color: 'white',
     alignSelf: 'center',
     fontWeight: 'bold',
-    fontSize: 14,
+    fontSize: 16,
   },
 });
