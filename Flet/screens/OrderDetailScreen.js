@@ -28,6 +28,7 @@ export default class OrdersScreen extends React.Component {
             subject: '',
             description: '',
             amount: '',
+            trackingID: '',
         }
     }
 
@@ -53,6 +54,7 @@ export default class OrdersScreen extends React.Component {
             subject: this.state.subject,
             description: this.state.description,
             amount: this.state.amount,
+            trackingID: this.state.trackingID,
         });
     }
 
@@ -92,7 +94,7 @@ export default class OrdersScreen extends React.Component {
                                 keyboardType="number-pad"
                                 multiline
                                 numberOfLines={3}
-                                onChangeText={(text) => { this.setState({ subject: text }) }}
+                                onChangeText={(text) => { this.setState({ trackingID: text }) }}
                             />
                         </View>
                         <View style={styles.amount}>

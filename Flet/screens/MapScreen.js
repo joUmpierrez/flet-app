@@ -9,6 +9,7 @@ import {
   View,
   TouchableOpacity
 } from 'react-native';
+import { addOrder } from '../services/Orders';
 
 
 
@@ -28,6 +29,7 @@ export default class OrdersScreen extends React.Component {
       subject: '',
       description: '',
       amount: '',
+      trackingID: '',
       lat1: '',
       lon1: '',
       lat2: '',
@@ -62,29 +64,89 @@ export default class OrdersScreen extends React.Component {
   }
 
   confirmOrder(){
-    console.log(this.state.client);
-    console.log(this.state.phone);
-    console.log(this.state.email);
-    console.log(this.state.business);
-    console.log(this.state.tin);
-    console.log(this.state.address);
-    console.log(this.state.subject);
-    console.log(this.state.description);
-    console.log(this.state.amount);
-    console.log(this.state.lat1);
-    console.log(this.state.lon1);
-    console.log(this.state.lat2);
-    console.log(this.state.lon2);
-    console.log(this.state.hour1);
-    console.log(this.state.minute1);
-    console.log(this.state.year1);
-    console.log(this.state.month1);
-    console.log(this.state.day1);
-    console.log(this.state.hour2);
-    console.log(this.state.minute2);
-    console.log(this.state.year2);
-    console.log(this.state.month2);
-    console.log(this.state.day2);
+    let number = Math.ceil(Math.random() * 1000000);
+    let year1 = this.state.year1;
+    let month1 = this.state.month1;
+    let day1 = this.state.day1;
+    let date1 = year1 + '-' + month1 + '-' + day1;
+    let year2 = this.state.year2;
+    let month2 = this.state.month2;
+    let day2 = this.state.day2;
+    let date2 = year2 + '-' + month2 + '-' + day2;
+    let hour1 = this.state.hour1;
+    let minute1 = this.state.minute1;
+    let time1 = hour1 + ' : ' + minute1 + ' : 00';
+    let hour2 = this.state.hour2;
+    let minute2 = this.state.minute2;
+    let time2 = hour2 + ' : ' + minute2 + ' : 00';
+    let json = {
+      id: number,
+      number: number,
+      trackingID: this.state.trackingID,
+      issue: this.state.subject,
+      description: this.state.description,
+      price: this.state.amount,
+      status: 'pending',
+      client: {
+        id: number,
+        name: this.state.client,
+        phone: this.state.phone,
+        email: this.state.email,
+        address: this.state.address,
+        bussiness_name: this.state.business,
+      },
+      pick_up: {
+        description: 'pick_up',
+        scheduled_date: date1,
+        scheduled_time: time1,
+        action_type: 'pick_up',
+        coordinates: {
+          latitude: this.state.lat1,
+          longitude: this.state.lon1,
+        }
+      },
+      drop_off: {
+        description: 'drop_off',
+        scheduled_date: date2,
+        scheduled_time: time2,
+        action_type: 'drop_off',
+        coordinates: {
+          latitude: this.state.lat2,
+          longitude: this.state.lon2,
+        }
+      },
+
+    }
+    console.log(json);
+    let data = new FormData();
+    data.append("json", JSON.stringify(json));
+    addOrder(data).then((res) => {
+      console.log(res);
+    });
+    // console.log(this.state.client);
+    // console.log(this.state.phone);
+    // console.log(this.state.email);
+    // console.log(this.state.business);
+    // console.log(this.state.tin);
+    // console.log(this.state.address);
+    // console.log(this.state.subject);
+    // console.log(this.state.description);
+    // console.log(this.state.amount);
+    // console.log(this.state.lat1);
+    // console.log(this.state.lon1);
+    // console.log(this.state.lat2);
+    // console.log(this.state.lon2);
+    // console.log(this.state.hour1);
+    // console.log(this.state.minute1);
+    // console.log(this.state.year1);
+    // console.log(this.state.month1);
+    // console.log(this.state.day1);
+    // console.log(this.state.hour2);
+    // console.log(this.state.minute2);
+    // console.log(this.state.year2);
+    // console.log(this.state.month2);
+    // console.log(this.state.day2);
+    // console.log(number);
   }
 
   componentDidMount() {
@@ -98,6 +160,7 @@ export default class OrdersScreen extends React.Component {
       subject: this.props.navigation.getParam('subject'),
       description: this.props.navigation.getParam('description'),
       amount: this.props.navigation.getParam('amount'),
+      trackingID: this.props.navigation.getParam('trackingID'),
     })
   }
 

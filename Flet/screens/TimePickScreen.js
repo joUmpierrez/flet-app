@@ -12,9 +12,32 @@ export default class TimePickScreen extends Component {
       day: null,
       lat: null,
       lon: null,
+      chosenDate: new Date(),
     }
-    // this.state = {chosenDate: new Date()};
-    // this.setDate = this.setDate.bind(this);
+    this.setDate = this.setDate.bind(this);
+  }
+
+  setDate(newDate) {
+    let minutes = newDate.getMinutes();
+    let year = newDate.getFullYear();
+    let date = newDate.getDate();
+    let month = newDate.getMonth()+1;
+    let hours;
+    if(newDate.getHours().toString().length == 1 ){
+      console.log('entre');
+      hours = '0'+newDate.getHours().toString();
+    }
+    else{
+      hours = newDate.getHours();
+    }
+    this.setState({
+      chosenDate: newDate,
+      hour: newDate.getHours(),
+      minute: minutes,
+      year: year,
+      day: date,
+      month: month,
+    });
   }
 
   componentDidMount(){

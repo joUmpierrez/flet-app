@@ -13,7 +13,7 @@ export default class LoginScreen extends React.Component {
   }
   
   componentDidMount(){  // Este metodo verifica luego de cargar la pagina 
-    this.props.navigation.navigate('Main');
+    // this.props.navigation.navigate('Main');
   }
 
   async checkHeaders(){ // Este metodo nos valida el login sin tener que hacerlo, para testear viene barbaro
@@ -38,12 +38,14 @@ export default class LoginScreen extends React.Component {
     handlePress(){
       login(this.state.email,this.state.password).then((res)=>{
       console.log(res);
-      switch(res['succes']){
-        case false: 
-          console.log('implementar mensaje');
-          break;
+      console.log(res.message);
+      switch(res['access_token']!=null){
+        case true: 
+        console.log('case1')
+        this.props.navigation.navigate('Main');
+        break;
         default:
-          this.props.navigation.navigate('OrderStack');
+          console.log('implementar mensaje');
       }
       });
       this.test1();
