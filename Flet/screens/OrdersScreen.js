@@ -8,8 +8,9 @@ import {
   TextInput,
   View,
 } from 'react-native';
-import { getOrders } from '../services/Orders';
+import { getOrders, getOrdersPage, pickUpOrder, deliverOrder } from '../services/Orders';
 import Swipeout from 'react-native-swipeout';
+import * as Location from 'expo-location';
 
 
 const screenWidth = Math.round(Dimensions.get('window').width);
@@ -23,6 +24,7 @@ export default class OrdersScreen extends React.Component {
     this.state = {
       orders: [],
       filteredOrders: [],
+      page: 2,
     }
   }
 
@@ -57,7 +59,7 @@ export default class OrdersScreen extends React.Component {
     }
   }
 
-  deleteItem(id) {
+  deleteItem(id, drop) {
     auxlist = []
     this.state.filteredOrders.forEach(element => {
       element.id != id ? auxlist.push(element) : null;
@@ -67,27 +69,148 @@ export default class OrdersScreen extends React.Component {
     });
   }
 
+  dropOff = async (id, drop) =>{
+    let or = this.state.orders;
+    or.forEach(element => {
+      if(element.id == id){
+        element.status = 'delivered' 
+      }
+    });
+    this.setState({
+      orders: or,
+    })
+    let hour = new Date().getHours();
+    let minutes = new Date().getMinutes();
+    let year = new Date().getFullYear();
+    let month = new Date().getMonth();
+    let day = new Date().getDate();
+    if(hour.toString().length <= 1){
+      let ah = '0' + hour.toString();
+      hour = ah;
+    }
+    if(minutes.toString().length <= 1){
+      let ah = '0' + minutes.toString();
+      minutes = ah;
+    }
+    if(month.toString().length <= 1){
+      let ah = '0' + month.toString();
+      month = ah;
+    }
+    if(day.toString().length <= 1){
+      let ah = '0' + day.toString();
+      day = ah;
+    }
+    let time = hour.toString() + '-' + minutes.toString();
+    let date = year.toString() + '-' + month.toString() + '-' + day.toString();
+    drop['effective_time'] = time;
+    drop['effective_date'] = date;
+    location = await Location.getCurrentPositionAsync();
+    let lat = location['coords']['latitude'];
+    let lng = location['coords']['longitude'];
+    let coords = {
+      latitude:lat,
+      longitude:lng,
+    }
+    drop['coordinates'] = coords;
+    deliverOrder(id,drop);
+  }
+
+  pickUp = async(id, pick) =>{
+    let or = this.state.orders;
+    or.forEach(element => {
+      if(element.id == id){
+        element.status = 'picked_up'
+      }
+    });
+    this.setState({
+      orders: or,
+    })
+    let hour = new Date().getHours();
+    let minutes = new Date().getMinutes();
+    let year = new Date().getFullYear();
+    let month = new Date().getMonth();
+    let day = new Date().getDate();
+    if(hour.toString().length <= 1){
+      let ah = '0' + hour.toString();
+      hour = ah;
+    }
+    if(minutes.toString().length <= 1){
+      let ah = '0' + minutes.toString();
+      minutes = ah;
+    }
+    if(month.toString().length <= 1){
+      let ah = '0' + month.toString();
+      month = ah;
+    }
+    if(day.toString().length <= 1){
+      let ah = '0' + day.toString();
+      day = ah;
+    }
+    let time = hour.toString() + '-' + minutes.toString();
+    let date = year.toString() + '-' + month.toString() + '-' + day.toString();
+    pick['effective_time'] = time;
+    pick['effective_date'] = date;
+    location = await Location.getCurrentPositionAsync();
+    let lat = location['coords']['latitude'];
+    let lng = location['coords']['longitude'];
+    let coords = {
+      latitude:lat,
+      longitude:lng,
+    }
+    pick['coordinates'] = coords;
+    pickUpOrder(id,pick);
+  }
+
   renderItem(item) {
-    let swipeoutBtns = [{
-      text: 'Delete',
-      backgroundColor: 'red',
-      onPress: () => { this.deleteItem(item.item.id) }
-    }]
+    let swipeoutBtns = [{}];
+    if(item.item.status == 'delivered'){
+      swipeoutBtns = [{
+        text: 'Delete',
+        backgroundColor: 'red',
+        onPress: () => { this.deleteItem(item.item.id) }
+      }];
+    }else if(item.item.status == 'picked_up'){
+      swipeoutBtns = [
+      {
+        text: 'Deliver',
+        backgroundColor: 'orange',
+        onPress: () => {this.dropOff(item.item.id,item.item['drop_off'])}
+      },
+      {
+        text: 'Delete',
+        backgroundColor: 'red',
+        onPress: () => { this.deleteItem(item.item.id) }
+      }];
+    }else{
+      swipeoutBtns = [
+        {
+          text: 'Pick up',
+          backgroundColor: 'orange',
+          onPress: () => {
+            this.pickUp(item.item.id, item.item['pick_up']);
+          }
+        },
+        {
+          text: 'Delete',
+          backgroundColor: 'red',
+          onPress: () => { this.deleteItem(item.item.id) }
+        }];
+    }
 
     return (
       <View style={styles.orderCard}>
-        <Swipeout right={swipeoutBtns} style={styles.swipeout}>
+        <Swipeout sensitivity={50} autoClose={true} right={swipeoutBtns} style={styles.swipeout}>
           <View style={styles.cardTitle}>
             <View style={styles.cardTitleText}>
-              <Text style={{ fontSize: 24, color: 'purple' }}>{item.item.number} Nombre cliente</Text>
+              <Text style={{ fontSize: 24, color: 'purple' }}>{item.item.client.name} {item.item.client.lastname}</Text>
             </View>
             <View style={styles.cardTitleShare}>
               <Ionicons name="md-share" color="purple" size={24} style={{ textAlign: 'right' }} />
             </View>
           </View>
           <View style={styles.cardAddress}>
-            <Text style={styles.cardAddressText}>{item.item.priority}</Text>
             <Text style={styles.cardAddressText}>{item.item.issue}</Text>
+            <Text style={styles.cardAddressText}>{item.item.client.address}</Text>
           </View>
           <View style={styles.cardStateText}>
             <View style={styles.textPending}>
@@ -123,6 +246,22 @@ export default class OrdersScreen extends React.Component {
       </View>
     )
   }
+
+  // endReached(){
+  //   let page = this.state.page
+  //   getOrdersPage(page).then((res) => {
+  //     if(!res.length == 0){
+  //       let orders = this.state.orders;
+  //       res.forEach(element => {
+  //         orders.push(element);
+  //       });
+  //       this.setState({
+  //         page: page+1,
+  //         orders: orders,
+  //       });
+  //     }
+  //   });
+  // }
 
   render() {
     return (<View style={styles.container}>
@@ -177,6 +316,8 @@ export default class OrdersScreen extends React.Component {
             data={this.state.filteredOrders}
             numColumns={1}
             renderItem={this.renderItem.bind(this)}
+            // onEndReached={this.endReached.bind(this)}
+            // onEndReachedThreshold= {0.5}
           />
         </View>
       </View>

@@ -9,6 +9,7 @@ import {
   StyleSheet,
   Text,
   TextInput,
+  Alert,
   View,
   TouchableOpacity
 } from 'react-native';
@@ -33,14 +34,26 @@ export default class OrdersScreen extends React.Component {
   }
 
   nextScreen() {
-    this.props.navigation.navigate('OrderDetail', {
-      client: this.state.client,
-      phone: this.state.phone,
-      email: this.state.email,
-      business: this.state.business,
-      tin: this.state.tin,
-      address: this.state.address,
-    });
+    if(this.state.client == '' || this.state.phone == '' || this.state.email == '' || this.state.business == '' || this.state.tin == '' || this.state.address == ''){
+      Alert.alert(
+        'Invalid',
+        'Please fill in all the form fields',
+        [
+          { text: 'OK', onPress: () => console.log('OK Pressed') },
+        ],
+        { cancelable: false }
+      );
+    }
+    else{
+      this.props.navigation.navigate('OrderDetail', {
+        client: this.state.client,
+        phone: this.state.phone,
+        email: this.state.email,
+        business: this.state.business,
+        tin: this.state.tin,
+        address: this.state.address,
+      });
+    }
   }
 
 

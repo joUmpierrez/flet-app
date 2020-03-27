@@ -1,5 +1,6 @@
 import {ordersURL, addOrderURL} from '../constants/routes';
 import {injectHeaders} from '../constants/header-manager';
+import { PushNotificationIOS } from 'react-native';
 
 export const getOrders = () => {
     const URL = ordersURL;
@@ -9,20 +10,64 @@ export const getOrders = () => {
     });
 }
 
+export const getOrdersPage = (page) =>{
+    const URL = ordersURL + '&_page=' +page;
+    return fetch(URL)
+    .then((res) => {
+        return res.json();
+    })
+}
+
+
 export const addOrder = (json) => {
-    console.log('llegue piola');
-    let number = '123123123123';
     const URL = addOrderURL;
-    console.log(json['client']);
     return fetch(URL,{
         method: 'POST',
         headers: {
             "Content-Type":"application/json",
         },
-        body: JSON.stringify({
-            "number": 13,
-        }),
+        body: JSON.stringify(json),
     }).then((res) => {
         return res.json();
     })
 }
+
+export const pickUpOrder = (id,pick) => {
+    console.log(pick);
+    const URL = addOrderURL + '/' +id;
+    console.log(URL);
+    return fetch(URL,{
+        method: 'PATCH',
+        headers: {
+            "Content-Type":"application/json",
+        },
+        body: JSON.stringify({
+            "pick_up":pick,
+            "status":"picked_up"
+        })
+    }).then((res)=>{
+        return res.json();
+    });  
+}
+
+export const deliverOrder = (id,drop) => {
+    console.log(drop);
+    const URL = addOrderURL + '/' +id;
+    console.log(URL);
+    return fetch(URL,{
+        method: 'PATCH',
+        headers: {
+            "Content-Type":"application/json",
+        },
+        body: JSON.stringify({
+            "drop_off":drop,
+            "status":"delivered"
+        })
+    }).then((res)=>{
+        return res.json();
+    });  
+}
+
+// JSON.stringify({
+//     "number": 13,
+// }),

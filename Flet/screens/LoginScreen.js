@@ -1,6 +1,9 @@
 import React from 'react';
-import {Text, View, StyleSheet, TouchableOpacity, TextInput,Image, AsyncStorage} from 'react-native';
+import {Text, View, StyleSheet, TouchableOpacity, TextInput,Image, AsyncStorage, Alert, BackHandler} from 'react-native';
 import { login } from '../services/Login';
+import * as Location from 'expo-location';
+import * as Permissions from 'expo-permissions';
+
 
 
 export default class LoginScreen extends React.Component {
@@ -11,44 +14,56 @@ export default class LoginScreen extends React.Component {
       password:''
     }
   }
+
+  _getLocationAsync = async () => {
+    let { status } = await Permissions.askAsync(Permissions.LOCATION);
+    if (status !== 'granted') {
+      Alert.alert(
+        'Please enable location',
+        'This app needs to know your location in order for it to funciton properly',
+        [
+          { text: 'OK', onPress: () => {
+            BackHandler.exitApp();
+          } },
+        ],
+        { cancelable: false }
+      );
+    }
+    else{
+      this.checkHeaders();
+    }
+  };
   
-  componentDidMount(){  // Este metodo verifica luego de cargar la pagina 
-    // this.props.navigation.navigate('Main');
+  componentWillMount(){  // Este metodo verifica luego de cargar la pagina 
+    this._getLocationAsync();
   }
 
   async checkHeaders(){ // Este metodo nos valida el login sin tener que hacerlo, para testear viene barbaro
-    let uid = await AsyncStorage.getItem('uid');
-    let expiry = await AsyncStorage.getItem('expiry');
-    let client = await AsyncStorage.getItem('client');
-    let tokenType = await AsyncStorage.getItem('token-type');
     let accessToken = await AsyncStorage.getItem('access-token');
-
-    if(uid != null && expiry != null && client != null && tokenType!= null && accessToken){
+    console.log(accessToken);
+    if(accessToken != null){
       this.props.navigation.navigate('Main');
-    }
-  }
-
-  async test1(){
-    let a = await AsyncStorage.getItem('expiry');
-    if(a != null){
-      console.log(a);
     }
   }
     
     handlePress(){
       login(this.state.email,this.state.password).then((res)=>{
-      console.log(res);
-      console.log(res.message);
       switch(res['access_token']!=null){
         case true: 
-        console.log('case1')
-        this.props.navigation.navigate('Main');
-        break;
+          AsyncStorage.setItem('access-token',res['access_token']);
+          this._getLocationAsync();
+          break;
         default:
-          console.log('implementar mensaje');
-      }
+          Alert.alert(
+            'Invalid Credentials',
+            'Check email or password',
+            [
+              { text: 'OK'},
+            ],
+            { cancelable: false }
+          );
+        }
       });
-      this.test1();
 
     }
     render() {

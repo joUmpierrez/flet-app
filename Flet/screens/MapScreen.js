@@ -80,7 +80,6 @@ export default class OrdersScreen extends React.Component {
     let minute2 = this.state.minute2;
     let time2 = hour2 + ' : ' + minute2 + ' : 00';
     let json = {
-      id: number,
       number: number,
       trackingID: this.state.trackingID,
       issue: this.state.subject,
@@ -118,9 +117,7 @@ export default class OrdersScreen extends React.Component {
 
     }
     console.log(json);
-    let data = new FormData();
-    data.append("json", JSON.stringify(json));
-    addOrder(data).then((res) => {
+    addOrder(json).then((res) => {
       console.log(res);
     });
     // console.log(this.state.client);
