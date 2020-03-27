@@ -8,12 +8,20 @@ import {
     TextInput,
     View,
     TouchableOpacity,
-    Alert
+    Alert,
+    Keyboard,
+    TouchableWithoutFeedback
 } from 'react-native';
 
 
 
 const title = "Order Detail";
+
+const Dismisskeyboard = ({ children }) => (
+    <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+        {children}
+    </TouchableWithoutFeedback>
+);
 
 export default class OrdersScreen extends React.Component {
 
@@ -45,15 +53,15 @@ export default class OrdersScreen extends React.Component {
     }
 
     nextScreen() {
-        if (this.state.subject == '' || this.state.description == ''|| this.state.amount == '' || this.state.description == '') {
+        if (this.state.subject == '' || this.state.description == '' || this.state.amount == '' || this.state.description == '') {
             Alert.alert(
                 'Error',
                 'Por favor, Complete todos los Campos',
                 [
-                  { text: 'OK', onPress: () => console.log('OK Pressed') },
+                    { text: 'OK', onPress: () => console.log('OK Pressed') },
                 ],
                 { cancelable: false }
-              );
+            );
         }
         else {
             this.props.navigation.navigate('OriginDestiny', {
@@ -88,6 +96,7 @@ export default class OrdersScreen extends React.Component {
                         </View>
                     </View>
                 </View>
+                <Dismisskeyboard>
                 <View style={styles.body} >
                     <View style={styles.regularInputs} >
                         <View style={styles.subject}>
@@ -134,6 +143,7 @@ export default class OrdersScreen extends React.Component {
                         />
                     </View>
                 </View>
+                </Dismisskeyboard>
                 <View style={styles.footer}>
                     <TouchableOpacity style={styles.purplebutton} onPress={this.nextScreen.bind(this)} >
                         <Text style={styles.whitefont}>Next</Text>

@@ -7,7 +7,8 @@ import {
   Text,
   TextInput,
   View,
-  TouchableOpacity
+  TouchableOpacity,
+  Alert
 } from 'react-native';
 import { addOrder } from '../services/Orders';
 
@@ -49,77 +50,92 @@ export default class OrdersScreen extends React.Component {
     }
   }
 
-  updateLocation1(){
+  updateLocation1() {
     this.setState({
       loc1: true,
     });
     this.props.navigation.navigate('Map');
   }
 
-  updateLocation2(){
+  updateLocation2() {
     this.setState({
       loc2: true,
     });
     this.props.navigation.navigate('Map');
   }
 
-  confirmOrder(){
-    let number = Math.ceil(Math.random() * 1000000);
-    let year1 = this.state.year1;
-    let month1 = this.state.month1;
-    let day1 = this.state.day1;
-    let date1 = year1 + '-' + month1 + '-' + day1;
-    let year2 = this.state.year2;
-    let month2 = this.state.month2;
-    let day2 = this.state.day2;
-    let date2 = year2 + '-' + month2 + '-' + day2;
-    let hour1 = this.state.hour1;
-    let minute1 = this.state.minute1;
-    let time1 = hour1 + ' : ' + minute1 + ' : 00';
-    let hour2 = this.state.hour2;
-    let minute2 = this.state.minute2;
-    let time2 = hour2 + ' : ' + minute2 + ' : 00';
-    let json = {
-      number: number,
-      trackingID: this.state.trackingID,
-      issue: this.state.subject,
-      description: this.state.description,
-      price: this.state.amount,
-      status: 'pending',
-      client: {
-        id: number,
-        name: this.state.client,
-        phone: this.state.phone,
-        email: this.state.email,
-        address: this.state.address,
-        bussiness_name: this.state.business,
-      },
-      pick_up: {
-        description: 'pick_up',
-        scheduled_date: date1,
-        scheduled_time: time1,
-        action_type: 'pick_up',
-        coordinates: {
-          latitude: this.state.lat1,
-          longitude: this.state.lon1,
-        }
-      },
-      drop_off: {
-        description: 'drop_off',
-        scheduled_date: date2,
-        scheduled_time: time2,
-        action_type: 'drop_off',
-        coordinates: {
-          latitude: this.state.lat2,
-          longitude: this.state.lon2,
-        }
-      },
-
+  confirmOrder() {
+    if (this.state.number == '' || this.state.year1 == '' || this.state.month1 == '' || this.state.day1 == '' || this.state.date1 == '' ||
+      this.state.year2 == '' || this.state.year2 == '' || this.state.month2 == '' || this.state.day2 == '' || this.state.date2 == '' ||
+      this.state.hour1 == '' || this.state.minute1 == '' || this.state.time1 == '' ||
+      this.state.hour2 == '' || this.state.minute2 == '' || this.state.time2 == '') {
+      Alert.alert(
+        'Error',
+        'Por favor, Complete todos los Campos',
+        [
+          { text: 'OK', onPress: () => console.log('OK Pressed') },
+        ],
+        { cancelable: false }
+      );
     }
+    else {
+      let number = Math.ceil(Math.random() * 1000000);
+      let year1 = this.state.year1;
+      let month1 = this.state.month1;
+      let day1 = this.state.day1;
+      let date1 = year1 + '-' + month1 + '-' + day1;
+      let year2 = this.state.year2;
+      let month2 = this.state.month2;
+      let day2 = this.state.day2;
+      let date2 = year2 + '-' + month2 + '-' + day2;
+      let hour1 = this.state.hour1;
+      let minute1 = this.state.minute1;
+      let time1 = hour1 + ' : ' + minute1 + ' : 00';
+      let hour2 = this.state.hour2;
+      let minute2 = this.state.minute2;
+      let time2 = hour2 + ' : ' + minute2 + ' : 00';
+      let json = {
+        number: number,
+        trackingID: this.state.trackingID,
+        issue: this.state.subject,
+        description: this.state.description,
+        price: this.state.amount,
+        status: 'pending',
+        client: {
+          id: number,
+          name: this.state.client,
+          phone: this.state.phone,
+          email: this.state.email,
+          address: this.state.address,
+          bussiness_name: this.state.business,
+        },
+        pick_up: {
+          description: 'pick_up',
+          scheduled_date: date1,
+          scheduled_time: time1,
+          action_type: 'pick_up',
+          coordinates: {
+            latitude: this.state.lat1,
+            longitude: this.state.lon1,
+          }
+        },
+        drop_off: {
+          description: 'drop_off',
+          scheduled_date: date2,
+          scheduled_time: time2,
+          action_type: 'drop_off',
+          coordinates: {
+            latitude: this.state.lat2,
+            longitude: this.state.lon2,
+          }
+        },
+      }
+    
     console.log(json);
     addOrder(json).then((res) => {
       console.log(res);
     });
+  }
     // console.log(this.state.client);
     // console.log(this.state.phone);
     // console.log(this.state.email);
@@ -162,7 +178,7 @@ export default class OrdersScreen extends React.Component {
   }
 
   componentWillUpdate() {
-    if(this.state.loc1){
+    if (this.state.loc1) {
       this.setState({
         lat1: this.props.navigation.getParam('lat'),
         lon1: this.props.navigation.getParam('lon'),
@@ -174,7 +190,7 @@ export default class OrdersScreen extends React.Component {
         loc1: false,
       });
     }
-    if(this.state.loc2){
+    if (this.state.loc2) {
       this.setState({
         lat2: this.props.navigation.getParam('lat'),
         lon2: this.props.navigation.getParam('lon'),
