@@ -7,7 +7,8 @@ import {
     Text,
     TextInput,
     View,
-    TouchableOpacity
+    TouchableOpacity,
+    Alert
 } from 'react-native';
 
 
@@ -44,18 +45,31 @@ export default class OrdersScreen extends React.Component {
     }
 
     nextScreen() {
-        this.props.navigation.navigate('OriginDestiny', {
-            client: this.state.client,
-            phone: this.state.phone,
-            email: this.state.email,
-            business: this.state.business,
-            tin: this.state.tin,
-            address: this.state.address,
-            subject: this.state.subject,
-            description: this.state.description,
-            amount: this.state.amount,
-            trackingID: this.state.trackingID,
-        });
+        if (this.state.subject == '' || this.state.description == ''|| this.state.amount == '' || this.state.description == '') {
+            Alert.alert(
+                'Error',
+                'Por favor, Complete todos los Campos',
+                [
+                  { text: 'OK', onPress: () => console.log('OK Pressed') },
+                ],
+                { cancelable: false }
+              );
+        }
+        else {
+            this.props.navigation.navigate('OriginDestiny', {
+                client: this.state.client,
+                phone: this.state.phone,
+                email: this.state.email,
+                business: this.state.business,
+                tin: this.state.tin,
+                address: this.state.address,
+                subject: this.state.subject,
+                description: this.state.description,
+                amount: this.state.amount,
+                trackingID: this.state.trackingID,
+
+            });
+        }
     }
 
     render() {
@@ -181,14 +195,14 @@ const styles = StyleSheet.create({
         width: '95%',
         alignSelf: 'center',
     },
-    subject:{
-        flex:2,
+    subject: {
+        flex: 2,
     },
-    trackId:{
-        flex:1,
+    trackId: {
+        flex: 1,
     },
-    amount:{
-        flex:1,
+    amount: {
+        flex: 1,
     },
     inputContainer: {
         flex: 2,
