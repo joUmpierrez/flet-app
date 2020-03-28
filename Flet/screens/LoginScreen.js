@@ -22,9 +22,7 @@ export default class LoginScreen extends React.Component {
         'Please enable location',
         'This app needs to know your location in order for it to funciton properly',
         [
-          { text: 'OK', onPress: () => {
-            BackHandler.exitApp();
-          } },
+          { text: 'OK' },
         ],
         { cancelable: false }
       );
@@ -35,6 +33,7 @@ export default class LoginScreen extends React.Component {
   };
   
   componentWillMount(){  // Este metodo verifica luego de cargar la pagina 
+    AsyncStorage.clear();
     this._getLocationAsync();
   }
 

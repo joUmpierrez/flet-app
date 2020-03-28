@@ -1,6 +1,6 @@
 import * as WebBrowser from 'expo-web-browser';
 import React from 'react';
-import { Dimensions, FlatList } from "react-native";
+import { Dimensions, FlatList, SafeAreaView } from "react-native";
 import { Ionicons, AntDesign, MaterialIcons, MaterialCommunityIcons, FontAwesome } from '@expo/vector-icons';
 import {
   StyleSheet,
@@ -8,7 +8,7 @@ import {
   TextInput,
   View,
 } from 'react-native';
-import { getOrders, getOrdersPage, pickUpOrder, deliverOrder } from '../services/Orders';
+import { getOrders, getOrdersPage, pickUpOrder, deliverOrder, deleteOrder } from '../services/Orders';
 import Swipeout from 'react-native-swipeout';
 import * as Location from 'expo-location';
 
@@ -59,7 +59,7 @@ export default class OrdersScreen extends React.Component {
     }
   }
 
-  deleteItem(id, drop) {
+  deleteItem(id) {
     auxlist = []
     this.state.filteredOrders.forEach(element => {
       element.id != id ? auxlist.push(element) : null;
@@ -67,13 +67,14 @@ export default class OrdersScreen extends React.Component {
     this.setState({
       filteredOrders: auxlist,
     });
+    deleteOrder(id);
   }
 
-  dropOff = async (id, drop) =>{
+  dropOff = async (id, drop) => {
     let or = this.state.orders;
     or.forEach(element => {
-      if(element.id == id){
-        element.status = 'delivered' 
+      if (element.id == id) {
+        element.status = 'delivered'
       }
     });
     this.setState({
@@ -84,19 +85,19 @@ export default class OrdersScreen extends React.Component {
     let year = new Date().getFullYear();
     let month = new Date().getMonth();
     let day = new Date().getDate();
-    if(hour.toString().length <= 1){
+    if (hour.toString().length <= 1) {
       let ah = '0' + hour.toString();
       hour = ah;
     }
-    if(minutes.toString().length <= 1){
+    if (minutes.toString().length <= 1) {
       let ah = '0' + minutes.toString();
       minutes = ah;
     }
-    if(month.toString().length <= 1){
+    if (month.toString().length <= 1) {
       let ah = '0' + month.toString();
       month = ah;
     }
-    if(day.toString().length <= 1){
+    if (day.toString().length <= 1) {
       let ah = '0' + day.toString();
       day = ah;
     }
@@ -108,17 +109,17 @@ export default class OrdersScreen extends React.Component {
     let lat = location['coords']['latitude'];
     let lng = location['coords']['longitude'];
     let coords = {
-      latitude:lat,
-      longitude:lng,
+      latitude: lat,
+      longitude: lng,
     }
     drop['coordinates'] = coords;
-    deliverOrder(id,drop);
+    deliverOrder(id, drop);
   }
 
-  pickUp = async(id, pick) =>{
+  pickUp = async (id, pick) => {
     let or = this.state.orders;
     or.forEach(element => {
-      if(element.id == id){
+      if (element.id == id) {
         element.status = 'picked_up'
       }
     });
@@ -130,19 +131,19 @@ export default class OrdersScreen extends React.Component {
     let year = new Date().getFullYear();
     let month = new Date().getMonth();
     let day = new Date().getDate();
-    if(hour.toString().length <= 1){
+    if (hour.toString().length <= 1) {
       let ah = '0' + hour.toString();
       hour = ah;
     }
-    if(minutes.toString().length <= 1){
+    if (minutes.toString().length <= 1) {
       let ah = '0' + minutes.toString();
       minutes = ah;
     }
-    if(month.toString().length <= 1){
+    if (month.toString().length <= 1) {
       let ah = '0' + month.toString();
       month = ah;
     }
-    if(day.toString().length <= 1){
+    if (day.toString().length <= 1) {
       let ah = '0' + day.toString();
       day = ah;
     }
@@ -154,34 +155,34 @@ export default class OrdersScreen extends React.Component {
     let lat = location['coords']['latitude'];
     let lng = location['coords']['longitude'];
     let coords = {
-      latitude:lat,
-      longitude:lng,
+      latitude: lat,
+      longitude: lng,
     }
     pick['coordinates'] = coords;
-    pickUpOrder(id,pick);
+    pickUpOrder(id, pick);
   }
 
   renderItem(item) {
     let swipeoutBtns = [{}];
-    if(item.item.status == 'delivered'){
+    if (item.item.status == 'delivered') {
       swipeoutBtns = [{
         text: 'Delete',
         backgroundColor: 'red',
         onPress: () => { this.deleteItem(item.item.id) }
       }];
-    }else if(item.item.status == 'picked_up'){
+    } else if (item.item.status == 'picked_up') {
       swipeoutBtns = [
-      {
-        text: 'Deliver',
-        backgroundColor: 'orange',
-        onPress: () => {this.dropOff(item.item.id,item.item['drop_off'])}
-      },
-      {
-        text: 'Delete',
-        backgroundColor: 'red',
-        onPress: () => { this.deleteItem(item.item.id) }
-      }];
-    }else{
+        {
+          text: 'Deliver',
+          backgroundColor: 'orange',
+          onPress: () => { this.dropOff(item.item.id, item.item['drop_off']) }
+        },
+        {
+          text: 'Delete',
+          backgroundColor: 'red',
+          onPress: () => { this.deleteItem(item.item.id) }
+        }];
+    } else {
       swipeoutBtns = [
         {
           text: 'Pick up',
@@ -199,7 +200,7 @@ export default class OrdersScreen extends React.Component {
 
     return (
       <View style={styles.orderCard}>
-        <Swipeout sensitivity={50} autoClose={true} right={swipeoutBtns} style={styles.swipeout}>
+        <Swipeout sensitivity={40} autoClose={true} right={swipeoutBtns} style={styles.swipeout}>
           <View style={styles.cardTitle}>
             <View style={styles.cardTitleText}>
               <Text style={{ fontSize: 24, color: 'purple' }}>{item.item.client.name} {item.item.client.lastname}</Text>
@@ -247,81 +248,68 @@ export default class OrdersScreen extends React.Component {
     )
   }
 
-  // endReached(){
-  //   let page = this.state.page
-  //   getOrdersPage(page).then((res) => {
-  //     if(!res.length == 0){
-  //       let orders = this.state.orders;
-  //       res.forEach(element => {
-  //         orders.push(element);
-  //       });
-  //       this.setState({
-  //         page: page+1,
-  //         orders: orders,
-  //       });
-  //     }
-  //   });
-  // }
 
   render() {
-    return (<View style={styles.container}>
-      <View style={styles.header}>
-        {/* //_______________________________________________________________________________ */}
-        <View id="viewTitle" style={[styles.headerRow]}>
-          <View style={styles.rowitem}>
-            <Ionicons onPress={() => this.props.navigation.toggleDrawer()} style={styles.drawerIcon} color='purple' name='ios-menu' size={32} />
+    return (
+        <View style={styles.container}>
+          <View style={styles.header}>
+            {/* //_______________________________________________________________________________ */}
+            <View id="viewTitle" style={[styles.headerRow]}>
+              <View style={styles.rowitem}>
+                <Ionicons onPress={() => this.props.navigation.toggleDrawer()} style={styles.drawerIcon} color='purple' name='ios-menu' size={32} />
+              </View>
+              <View style={styles.rowitem}>
+                <Text style={styles.title} >{title}</Text>
+              </View>
+              <View style={styles.rowitem}>
+                <View style={styles.twoIcons}>
+                  <AntDesign style={styles.excel} color='purple' name='exclefile1' size={32} />
+                  <MaterialIcons style={styles.filter} color='purple' name='filter-list' size={32} />
+                </View>
+              </View>
+            </View>
+            {/* //_______________________________________________________________________________ */}
+
+            <View id="viewSearch" style={styles.headerNoRow}>
+              <View style={styles.searchBar}>
+                <Ionicons name='ios-search' color='purple' size={24} style={styles.searchIcon} />
+                <TextInput placeholder="Client/Order/Subject.." style={styles.textInput} onChangeText={text => this.searchFilter(text)} ></TextInput>
+              </View>
+            </View>
+
+
+            <View id="viewDates" style={styles.headerRow}>
+              <View style={styles.headerDate}>
+                <MaterialCommunityIcons name='calendar-check' color='purple' size={24} style={styles.searchIcon} />
+                <TextInput placeholder="From" style={styles.textInput}></TextInput>
+              </View>
+              <View style={styles.headerDate}>
+                <MaterialCommunityIcons name='calendar-check' color='purple' size={24} style={styles.searchIcon} />
+                <TextInput placeholder="To" style={styles.textInput}></TextInput>
+              </View>
+            </View>
+
           </View>
-          <View style={styles.rowitem}>
-            <Text style={styles.title} >{title}</Text>
-          </View>
-          <View style={styles.rowitem}>
-            <View style={styles.twoIcons}>
-              <AntDesign style={styles.excel} color='purple' name='exclefile1' size={32} />
-              <MaterialIcons style={styles.filter} color='purple' name='filter-list' size={32} />
+          <View style={styles.content}>
+            <View style={styles.orderList}>
+              <FlatList
+                showsVerticalScrollIndicator={false}
+                keyExtractor={item => item.id.toString()}
+                ItemSeparatorComponent={() => {
+                  return (
+                    <View style={{ width: 10 }} />
+                  )
+                }}
+                data={this.state.filteredOrders}
+                numColumns={1}
+                renderItem={this.renderItem.bind(this)}
+              // onEndReached={this.endReached.bind(this)}
+              // onEndReachedThreshold= {0.5}
+              />
             </View>
           </View>
         </View>
-        {/* //_______________________________________________________________________________ */}
-
-        <View id="viewSearch" style={styles.headerNoRow}>
-          <View style={styles.searchBar}>
-            <Ionicons name='ios-search' color='purple' size={24} style={styles.searchIcon} />
-            <TextInput placeholder="Client/Order/Subject.." style={styles.textInput} onChangeText={text => this.searchFilter(text)} ></TextInput>
-          </View>
-        </View>
-
-
-        <View id="viewDates" style={styles.headerRow}>
-          <View style={styles.headerDate}>
-            <MaterialCommunityIcons name='calendar-check' color='purple' size={24} style={styles.searchIcon} />
-            <TextInput placeholder="From" style={styles.textInput}></TextInput>
-          </View>
-          <View style={styles.headerDate}>
-            <MaterialCommunityIcons name='calendar-check' color='purple' size={24} style={styles.searchIcon} />
-            <TextInput placeholder="To" style={styles.textInput}></TextInput>
-          </View>
-        </View>
-
-      </View>
-      <View style={styles.content}>
-        <View style={styles.orderList}>
-          <FlatList
-            showsVerticalScrollIndicator={false}
-            keyExtractor={item => item.id.toString()}
-            ItemSeparatorComponent={() => {
-              return (
-                <View style={{ width: 10 }} />
-              )
-            }}
-            data={this.state.filteredOrders}
-            numColumns={1}
-            renderItem={this.renderItem.bind(this)}
-            // onEndReached={this.endReached.bind(this)}
-            // onEndReachedThreshold= {0.5}
-          />
-        </View>
-      </View>
-    </View>)
+    )
   }
 }
 
@@ -444,7 +432,7 @@ const styles = StyleSheet.create({
   cardAddressText: {
     paddingLeft: 3,
     textAlign: 'left',
-    fontSize: 12,
+    fontSize: 14,
   },
   cardStateText: {
     flex: 1,

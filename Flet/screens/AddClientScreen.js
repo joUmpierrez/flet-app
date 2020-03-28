@@ -1,6 +1,6 @@
 import * as WebBrowser from 'expo-web-browser';
 import React from 'react';
-import { Dimensions } from "react-native";
+import { Dimensions, KeyboardAvoidingView } from "react-native";
 import { Ionicons, AntDesign, MaterialIcons, EvilIcons } from '@expo/vector-icons';
 import {
   Image,
@@ -74,14 +74,14 @@ export default class OrdersScreen extends React.Component {
             </View>
           </View>
         </View>
-        <View style={styles.body} >
+        <KeyboardAvoidingView behavior="padding" style={styles.body}>
           <TextInput style={styles.bottominput} placeholder="Client" placeholderTextColor="#88898f" onChangeText={(text) => { this.setState({ client: text }) }}></TextInput>
           <TextInput style={styles.bottominput} placeholder="Phone" placeholderTextColor="#88898f" onChangeText={(text) => { this.setState({ phone: text }) }}></TextInput>
           <TextInput style={styles.bottominput} placeholder="Email" placeholderTextColor="#88898f" onChangeText={(text) => { this.setState({ email: text }) }}></TextInput>
           <TextInput style={styles.bottominput} placeholder="Business Name" placeholderTextColor="#88898f" onChangeText={(text) => { this.setState({ business: text }) }}></TextInput>
           <TextInput style={styles.bottominput} placeholder="TIN-SSN" placeholderTextColor="#88898f" onChangeText={(text) => { this.setState({ tin: text }) }}></TextInput>
           <TextInput style={styles.bottominput} placeholder="Address" placeholderTextColor="#88898f" onChangeText={(text) => { this.setState({ address: text }) }}></TextInput>
-        </View>
+        </KeyboardAvoidingView>
         <View style={styles.footer}>
           <TouchableOpacity style={styles.purplebutton} onPress={this.nextScreen.bind(this)}>
             <Text style={styles.whitefont} >Next</Text>

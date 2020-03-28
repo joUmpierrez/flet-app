@@ -68,6 +68,18 @@ export const deliverOrder = (id,drop) => {
     });  
 }
 
+export const deleteOrder = (id) => {
+    const URL = addOrderURL + '/' +id;
+    return fetch(URL,{
+        method: 'DELETE',
+        headers:{
+            "Content-Type":"application/json",
+        }
+    }).then((res) => {
+        return res.json();
+    })
+}
+
 // JSON.stringify({
 //     "number": 13,
 // }),
