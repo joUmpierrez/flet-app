@@ -193,7 +193,7 @@ const styles = StyleSheet.create({
     },
     title: {
         alignSelf: 'center',
-        fontSize: 24,
+        fontSize: 20,
     },
     regularInputs: {
         flex: 1,
@@ -233,7 +233,7 @@ const styles = StyleSheet.create({
         width: '100%',
         // height: '28%',
         textAlign: 'left',
-        fontSize: 18,
+        fontSize: 16,
         // paddingBottom: 90,
 
     },
@@ -250,7 +250,7 @@ const styles = StyleSheet.create({
         color: 'white',
         alignSelf: 'center',
         fontWeight: 'bold',
-        fontSize: 14,
+        fontSize: 16,
     },
     grayfont: {
         color: '#d4d2d2',

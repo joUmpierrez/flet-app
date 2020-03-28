@@ -192,13 +192,13 @@ const styles = StyleSheet.create({
     color: 'white',
     alignSelf: 'center',
     fontWeight: 'bold',
-    fontSize: 14,
+    fontSize: 16,
   },
   blackfont: {
     color: 'black',
     alignSelf: 'center',
     fontWeight: 'bold',
-    fontSize: 14,
+    fontSize: 16,
   },
   dateFont: {
     color: 'black',

@@ -307,7 +307,7 @@ const styles = StyleSheet.create({
   },
   title: {
     alignSelf: 'center',
-    fontSize: 24,
+    fontSize: 16,
   },
   body: {
     flex: 6,
@@ -334,7 +334,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   locationText: {
-    fontSize: 24,
+    fontSize: 16,
     paddingLeft: '15%'
   },
   footer: {
@@ -348,7 +348,7 @@ const styles = StyleSheet.create({
     width: '95%',
     height: '40%',
     textAlign: 'left',
-    fontSize: 18,
+    fontSize: 16,
     paddingBottom: 90,
 
   },
@@ -375,17 +375,17 @@ const styles = StyleSheet.create({
     color: 'white',
     alignSelf: 'center',
     fontWeight: 'bold',
-    fontSize: 14,
+    fontSize: 16,
   },
   blackButtonFont: {
     color: 'black',
     alignSelf: 'center',
     fontWeight: 'bold',
-    fontSize: 14,
+    fontSize: 16,
   },
   blackFont: {
     color: 'black',
-    fontSize: 24,
+    fontSize: 16,
   },
   grayfont: {
     color: '#d4d2d2',

@@ -22,8 +22,8 @@ export default class drawerContentComponent extends Component {
             <View style={styles.container}>
 
                 <View>
-                    <Image style={styles.drawerImage} source ={require('../assets/images/fleticon.png')}>
-                        
+                    <Image style={styles.drawerImage} source={require('../assets/images/fleticon.png')}>
+
                     </Image>
                 </View>
 
@@ -72,10 +72,11 @@ const styles = StyleSheet.create({
     },
     screenStyle: {
         height: 30,
-        marginTop: 2,
+        marginTop: 5,
         flexDirection: 'row',
         alignItems: 'center',
         width: '100%',
+        height:'8%',
         marginBottom: 20,
     },
     screenTextStyle: {
@@ -84,7 +85,7 @@ const styles = StyleSheet.create({
         textAlign: 'left',
         alignSelf: 'center',
         color: '#3A0D5E',
-        left:30,
+        left: 30,
     },
     selectedTextStyle: {
         color: 'black'
@@ -92,7 +93,11 @@ const styles = StyleSheet.create({
     drawerImage: {
         height: 80,
         width: 80,
-        alignSelf:'center',
-        right:40
+        alignSelf: 'center',
+        right: 40,
+        marginRight: '8%',
     },
+    activeBackgroundColor:{
+        backgroundColor:'#e3e3e3'
+    }
 });
