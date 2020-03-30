@@ -7,6 +7,7 @@ import {
   Platform,
   Text,
   TextInput,
+  RefreshControl,
   View,
 } from 'react-native';
 import { getOrders, getOrdersPage, pickUpOrder, deliverOrder, deleteOrder } from '../services/Orders';
@@ -26,6 +27,7 @@ export default class OrdersScreen extends React.Component {
       orders: [],
       filteredOrders: [],
       page: 2,
+      refreshing: false,
     }
   }
 
@@ -35,6 +37,20 @@ export default class OrdersScreen extends React.Component {
       this.setState({
         orders: DATA,
         filteredOrders: DATA,
+      });
+    });
+  }
+
+  refresh(){
+    this.setState({
+      refreshing: true,
+    })
+    getOrders().then((res) => {
+      let DATA = res
+      this.setState({
+        orders: DATA,
+        filteredOrders: DATA,
+        refreshing: false,
       });
     });
   }
@@ -298,6 +314,7 @@ export default class OrdersScreen extends React.Component {
               <FlatList
                 showsVerticalScrollIndicator={false}
                 keyExtractor={item => item.id.toString()}
+                refreshControl={<RefreshControl refreshing={this.state.refreshing} onRefresh={this.refresh.bind(this)} />}
                 ItemSeparatorComponent={() => {
                   return (
                     <View style={{ width: 10 }} />

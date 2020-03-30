@@ -134,6 +134,7 @@ export default class OrdersScreen extends React.Component {
       console.log(json);
       addOrder(json).then((res) => {
         console.log(res);
+        this.props.navigation.navigate('Orders');
       });
     }
     // console.log(this.state.client);
