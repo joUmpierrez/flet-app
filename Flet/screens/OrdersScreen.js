@@ -8,6 +8,7 @@ import {
   Text,
   TextInput,
   RefreshControl,
+  Keyboard,
   View,
 } from 'react-native';
 import { getOrders, getOrdersPage, pickUpOrder, deliverOrder, deleteOrder } from '../services/Orders';
@@ -270,7 +271,7 @@ export default class OrdersScreen extends React.Component {
 
   render() {
     return (
-        <SafeAreaView style={styles.container}>
+        <SafeAreaView style={styles.container} onPress={() => {Keyboard.dismiss()}}>
           <View style={styles.header}>
             {/* //_______________________________________________________________________________ */}
             <View id="viewTitle" style={[styles.headerRow]}>
