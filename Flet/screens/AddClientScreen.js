@@ -3,9 +3,8 @@ import React from 'react';
 import { Dimensions, KeyboardAvoidingView } from "react-native";
 import { Ionicons, AntDesign, MaterialIcons, EvilIcons } from '@expo/vector-icons';
 import {
-  Image,
+  SafeAreaView,
   Platform,
-  ScrollView,
   StyleSheet,
   Text,
   TextInput,
@@ -60,7 +59,7 @@ export default class OrdersScreen extends React.Component {
 
   render() {
     return (
-      <View style={styles.container}>
+      <SafeAreaView style={styles.container}>
         <View style={styles.header}>
           <View id="viewTitle" style={[styles.headerRow]}>
             <View style={styles.rowitem}>
@@ -87,7 +86,7 @@ export default class OrdersScreen extends React.Component {
             <Text style={styles.whitefont} >Next</Text>
           </TouchableOpacity>
         </View>
-      </View>
+      </SafeAreaView>
     )
   }
 }
@@ -99,7 +98,7 @@ OrdersScreen.navigationOptions = {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop: 24,
+    marginTop: Platform.OS === 'ios'? null : 24,
     backgroundColor: '#e3e3e3',
   },
   body: {

@@ -1,11 +1,11 @@
 import * as WebBrowser from 'expo-web-browser';
 import React from 'react';
-import { Dimensions } from "react-native";
+import { Dimensions, Platform } from "react-native";
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import {
   StyleSheet,
   Text,
-  TextInput,
+  SafeAreaView,
   View,
   TouchableOpacity,
   Alert
@@ -130,12 +130,12 @@ export default class OrdersScreen extends React.Component {
           }
         },
       }
-    
-    console.log(json);
-    addOrder(json).then((res) => {
-      console.log(res);
-    });
-  }
+
+      console.log(json);
+      addOrder(json).then((res) => {
+        console.log(res);
+      });
+    }
     // console.log(this.state.client);
     // console.log(this.state.phone);
     // console.log(this.state.email);
@@ -205,74 +205,75 @@ export default class OrdersScreen extends React.Component {
   }
 
   render() {
-    return (<View style={styles.container}>
-      <View style={styles.header}>
-        {/* //_______________________________________________________________________________  TODO EL HEADER*/}
-        <View id="viewTitle" style={[styles.headerRow]}>
-          <View style={styles.rowitem}>
-            <Ionicons onPress={() => this.props.navigation.goBack()} style={styles.drawerIcon} color='purple' name='ios-arrow-back' size={32} />
-          </View>
-          <View style={styles.rowitem}>
-            <Text style={styles.title} >{title}</Text>
-          </View>
-          <View style={styles.rowitem}>
-
-          </View>
-        </View>
-      </View>
-
-      {/* //_______________________________________________________________________________  DEBAJO DEL HEADER*/}
-      <View style={styles.body} >
-
-        <View style={styles.clientatributesdivision}>
-          <View style={styles.logoHeader}>
-            <MaterialCommunityIcons name='map-marker-radius' color='purple' size={46} />
-            <Text style={styles.blackFont}>Origin</Text>
-          </View>
-          <View style={styles.mapSection}>
-            <View style={styles.latitude}>
-              <Text style={styles.locationText}>{this.state.lat1}</Text>
+    return (
+      <SafeAreaView style={styles.container}>
+        <View style={styles.header}>
+          {/* //_______________________________________________________________________________  TODO EL HEADER*/}
+          <View id="viewTitle" style={[styles.headerRow]}>
+            <View style={styles.rowitem}>
+              <Ionicons onPress={() => this.props.navigation.goBack()} style={styles.drawerIcon} color='purple' name='ios-arrow-back' size={32} />
             </View>
-            <View style={styles.longitude}>
-              <Text style={styles.locationText}>{this.state.lon1}</Text>
+            <View style={styles.rowitem}>
+              <Text style={styles.title} >{title}</Text>
             </View>
-            <View style={styles.buttonSection}>
-              <TouchableOpacity style={styles.orangeButton} onPress={this.updateLocation1.bind(this)} >
-                <Text style={styles.blackButtonFont}>Select</Text>
-              </TouchableOpacity>
+            <View style={styles.rowitem}>
+
             </View>
           </View>
         </View>
 
-        <View style={styles.clientatributesdivision2}>
-          <View style={styles.logoHeader}>
-            <MaterialCommunityIcons name='map-marker-radius' color='purple' size={46} />
-            <Text style={styles.blackFont}>Destination</Text>
-          </View>
-          <View style={styles.mapSection}>
-            <View style={styles.latitude}>
-              <Text style={styles.locationText}>{this.state.lat2}</Text>
+        {/* //_______________________________________________________________________________  DEBAJO DEL HEADER*/}
+        <View style={styles.body} >
+
+          <View style={styles.clientatributesdivision}>
+            <View style={styles.logoHeader}>
+              <MaterialCommunityIcons name='map-marker-radius' color='purple' size={46} />
+              <Text style={styles.blackFont}>Origin</Text>
             </View>
-            <View style={styles.longitude}>
-              <Text style={styles.locationText}>{this.state.lon2}</Text>
-            </View>
-            <View style={styles.footer}>
-              <TouchableOpacity style={styles.orangeButton} onPress={this.updateLocation2.bind(this)} >
-                <Text style={styles.blackButtonFont}>Select</Text>
-              </TouchableOpacity>
+            <View style={styles.mapSection}>
+              <View style={styles.latitude}>
+                <Text style={styles.locationText}>{this.state.lat1}</Text>
+              </View>
+              <View style={styles.longitude}>
+                <Text style={styles.locationText}>{this.state.lon1}</Text>
+              </View>
+              <View style={styles.buttonSection}>
+                <TouchableOpacity style={styles.orangeButton} onPress={this.updateLocation1.bind(this)} >
+                  <Text style={styles.blackButtonFont}>Select</Text>
+                </TouchableOpacity>
+              </View>
             </View>
           </View>
 
+          <View style={styles.clientatributesdivision2}>
+            <View style={styles.logoHeader}>
+              <MaterialCommunityIcons name='map-marker-radius' color='purple' size={46} />
+              <Text style={styles.blackFont}>Destination</Text>
+            </View>
+            <View style={styles.mapSection}>
+              <View style={styles.latitude}>
+                <Text style={styles.locationText}>{this.state.lat2}</Text>
+              </View>
+              <View style={styles.longitude}>
+                <Text style={styles.locationText}>{this.state.lon2}</Text>
+              </View>
+              <View style={styles.footer}>
+                <TouchableOpacity style={styles.orangeButton} onPress={this.updateLocation2.bind(this)} >
+                  <Text style={styles.blackButtonFont}>Select</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+
+          </View>
         </View>
-      </View>
 
 
-      <View style={styles.flex1}>
-        <TouchableOpacity style={styles.purplebutton} onPress={this.confirmOrder.bind(this)} >
-          <Text style={styles.whitefont}>CONFIRM ORDER</Text>
-        </TouchableOpacity>
-      </View>
-    </View>)
+        <View style={styles.flex1}>
+          <TouchableOpacity style={styles.purplebutton} onPress={this.confirmOrder.bind(this)} >
+            <Text style={styles.whitefont}>CONFIRM</Text>
+          </TouchableOpacity>
+        </View>
+      </SafeAreaView>)
   }
 }
 
@@ -282,7 +283,7 @@ OrdersScreen.navigationOptions = {
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 22,
+    marginTop: Platform.OS === 'ios' ? null : 22,
     flex: 6,
     backgroundColor: "#e3e3e3"
   },

@@ -33,7 +33,6 @@ export default class LoginScreen extends React.Component {
   };
   
   componentWillMount(){  // Este metodo verifica luego de cargar la pagina 
-    AsyncStorage.clear();
     this._getLocationAsync();
   }
 

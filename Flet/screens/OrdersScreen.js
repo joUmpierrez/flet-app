@@ -4,6 +4,7 @@ import { Dimensions, FlatList, SafeAreaView } from "react-native";
 import { Ionicons, AntDesign, MaterialIcons, MaterialCommunityIcons, FontAwesome } from '@expo/vector-icons';
 import {
   StyleSheet,
+  Platform,
   Text,
   TextInput,
   View,
@@ -253,7 +254,7 @@ export default class OrdersScreen extends React.Component {
 
   render() {
     return (
-        <View style={styles.container}>
+        <SafeAreaView style={styles.container}>
           <View style={styles.header}>
             {/* //_______________________________________________________________________________ */}
             <View id="viewTitle" style={[styles.headerRow]}>
@@ -310,7 +311,7 @@ export default class OrdersScreen extends React.Component {
               />
             </View>
           </View>
-        </View>
+        </SafeAreaView>
     )
   }
 }
@@ -331,9 +332,8 @@ const styles = StyleSheet.create({
     width: '100%'
   },
   container: {
-    marginTop: 22,
+    marginTop: Platform.OS === 'ios'? null : 22,
     flex: 3,
-    backgroundColor: '#fff',
   },
   headerNoRow: {
     flex: 1,

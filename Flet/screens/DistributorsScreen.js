@@ -1,9 +1,26 @@
 import React from 'react';
-import { Text, View, StyleSheet, Dimensions } from 'react-native';
-import MapView from 'react-native-maps';
+import { Text, View, StyleSheet, Dimensions, SafeAreaView, Platform } from 'react-native';
+import MapView, { Marker } from 'react-native-maps';
 import { Ionicons } from '@expo/vector-icons';
+import { getDrivers } from '../services/Drivers';
 
 export default class DistributorsScreen extends React.Component {
+  constructor(props){
+    super(props);
+    this.state={
+      drivers:[],
+    }
+  }
+
+  componentWillMount(){
+    getDrivers().then((res)=>{
+      this.setState({
+        drivers: res
+      });
+    });
+  }
+
+
   render() {
 
     let region = {
@@ -13,7 +30,7 @@ export default class DistributorsScreen extends React.Component {
       longitudeDelta: 0.0421,
     }
     return (
-      <View style={styles.container}>
+      <SafeAreaView style={styles.container}>
         <View style={styles.header}>
           <View style={styles.headerRow}>
             <View style={styles.rowitem}>
@@ -32,9 +49,20 @@ export default class DistributorsScreen extends React.Component {
         <View style={styles.body}>
           <MapView style={styles.map}
             initialRegion={region}>
+              {this.state.drivers.map((item) => {
+                if(item.coordinates['latitude'] != null){
+                  return(
+                    <Marker 
+                      key={item.id}
+                      coordinate={{latitude: item.coordinates['latitude'],longitude: item.coordinates['longitude']}}
+                      title={item.name + ' ' + item.lastname}
+                    />
+                  )
+                }
+              })}
           </MapView>
         </View>
-      </View>
+      </SafeAreaView>
     );
   }
 }
@@ -46,7 +74,7 @@ DistributorsScreen.navigationOptions = {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop: 24,
+    marginTop: Platform.OS === 'ios'? null : 24,
     backgroundColor: '#e3e3e3'
   },
   header: {

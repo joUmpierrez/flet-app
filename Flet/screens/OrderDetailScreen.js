@@ -1,6 +1,6 @@
 import * as WebBrowser from 'expo-web-browser';
 import React from 'react';
-import { Dimensions } from "react-native";
+import { Dimensions, SafeAreaView, Platform } from "react-native";
 import { Ionicons, AntDesign, MaterialIcons, EvilIcons } from '@expo/vector-icons';
 import {
     StyleSheet,
@@ -82,7 +82,7 @@ export default class OrdersScreen extends React.Component {
 
     render() {
         return (
-            <View style={styles.container}>
+            <SafeAreaView style={styles.container}>
                 <View style={styles.header}>
                     <View style={styles.headerRow}>
                         <View style={styles.rowitem}>
@@ -131,7 +131,7 @@ export default class OrdersScreen extends React.Component {
                                 onChangeText={(text) => { this.setState({ amount: text }) }}
                             />
                         </View>
-                    </View>
+                    </ View>
                     <View style={styles.descriptionInput}>
                         <TextInput
                             style={styles.textInput}
@@ -149,7 +149,7 @@ export default class OrdersScreen extends React.Component {
                         <Text style={styles.whitefont}>Next</Text>
                     </TouchableOpacity>
                 </View>
-            </View>
+            </SafeAreaView>
         )
     }
 }
@@ -160,7 +160,7 @@ OrdersScreen.navigationOptions = {
 
 const styles = StyleSheet.create({
     container: {
-        marginTop: 24,
+        marginTop: Platform.OS === 'ios'? null : 24,
         flex: 1,
         backgroundColor: '#e3e3e3',
     },
