@@ -62,7 +62,7 @@ export default class OrdersScreen extends React.Component {
         filteredOrders: []
       });
       this.state.orders.forEach(element => {
-        element.priority.includes(text) || element.number.toString().includes(text) ? auxArray.push(element) : null;
+        element.priority.includes(text) || element.client.lastname.toString().includes(text) || element.client.name.toString().includes(text) ? auxArray.push(element) : null;
       });
       this.setState({
         filteredOrders: auxArray,
